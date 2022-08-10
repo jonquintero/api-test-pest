@@ -1,0 +1,162 @@
+name: CI
+
+# You want to run the tests on every push, and for pull requests.
+on: [ push, pull_request ]
+
+jobs:
+  unit-feature-tests:
+
+    runs-on: ubuntu-latest
+
+    # Instead of relying on the MySQL version of ubuntu, you may want to run
+    # the tests against a known version. This eliminates any issues related
+    # to DB version.
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ALLOW_EMPTY_PASSWORD: yes
+          MYSQL_DATABASE: db
+        ports:
+          - 3306:3306
+        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+
+    # Environment variables during project setup and test run.
+    env:
+      DB_HOST: 127.0.0.1
+      DB_PORT: 3306
+      DB_DATABASE: db
+      DB_USERNAME: root
+      DB_PASSWORD: ""
+
+    steps:
+      - uses: shivammathur/setup-php@v2
+        with:
+          # You may want to change this based on your minimum PHP version that
+          # your project is supposed to support.
+          php-version: '8.1'
+
+      - uses: actions/checkout@v3
+
+      # You may want to use some default environment variables during the
+      # setup. The below will help you to achieve this.
+      - name: Copy .env
+        run: php -r "file_exists('.env') || copy('.env.example', '.env');"
+
+      - name: Install Dependencies
+        run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
+
+      - name: Generate key
+        run: php artisan key:generate
+
+      - name: Directory Permissions
+        run: chmod -R 777 storage bootstrap/cache
+
+      - name: Execute tests (Unit and Feature tests) via PHPUnit
+        run: vendor/bin/pest --coverage-clover coverage.xml
+
+      # Uncomment the code below to push code coverage report to codecov.io.
+      # - name: Send code coverage report to Codecov.io
+      #   uses: codecov/codecov-action@v2
+      #   with:
+      #     token: ${{ secrets.CODECOV_TOKEN }}
+
+  code-standard-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.1'
+
+      - uses: actions/checkout@v3
+
+      - name: Copy .env
+        run: php -r "file_exists('.env') || copy('.env.example', '.env');"
+
+      - name: Install Dependencies
+        run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
+
+      # You may want to make sure that your project follows a certain code
+      # standard.
+      # The below requires
+      # https://github.com/squizlabs/PHP_CodeSniffer package to be installed.
+      # For your reference: https://laravel.com/docs/contributions#coding-style
+      # You can define the rules in your phpcs.xml file.
+      - name: Check code standards
+        run: ./vendor/bin/phpcs
+
+  browser-tests:
+    runs-on: ubuntu-latest
+
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ALLOW_EMPTY_PASSWORD: yes
+          MYSQL_DATABASE: db
+        ports:
+          - 3306:3306
+        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+
+    env:
+      APP_URL: "http://127.0.0.1:8000"
+      DB_HOST: 127.0.0.1
+      DB_PORT: 3306
+      DB_DATABASE: db
+      DB_USERNAME: root
+      DB_PASSWORD: ""
+
+    steps:
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.1'
+
+      - uses: actions/checkout@v2
+
+      - name: Copy .env
+        run: php -r "file_exists('.env') || copy('.env.example', '.env');"
+
+      - name: Install Composer Dependencies
+        run: composer install --no-progress --prefer-dist --optimize-autoloader
+
+      - name: Generate Application Key
+        run: php artisan key:generate
+
+      - name: Directory Permissions
+        run: chmod -R 777 storage bootstrap/cache
+
+      - name: Upgrade Chrome Driver
+        run: php artisan dusk:chrome-driver `/opt/google/chrome/chrome --version | cut -d " " -f3 | cut -d "." -f1`
+
+      # Make sure chrome driver is running before executing the browser test.
+      - name: Start Chrome Driver
+        run: ./vendor/laravel/dusk/bin/chromedriver-linux &
+
+      - name: Run Laravel Server
+        run: php artisan serve --no-reload &
+
+      - name: Run Dusk Tests
+        run: php artisan dusk --debug --verbose
+
+      # The below will upload screenshots and logs that will help you to debug
+      # what has caused the test failure in CI.
+      - name: Upload Screenshots
+        if: failure()
+        uses: actions/upload-artifact@v2
+        with:
+          name: screenshots
+          path: tests/Browser/screenshots
+
+      - name: Upload Console Logs
+        if: failure()
+        uses: actions/upload-artifact@v2
+        with:
+          name: console
+          path: tests/Browser/console
+
+      - name: Upload App Logs
+        if: failure()
+        uses: actions/upload-artifact@v2
+        with:
+          name: app
+          path: storage/logs
