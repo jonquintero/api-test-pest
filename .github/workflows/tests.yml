@@ -83,7 +83,7 @@ jobs:
       # For your reference: https://laravel.com/docs/contributions#coding-style
       # You can define the rules in your phpcs.xml file.
       - name: Check code standards
-        run: ./vendor/bin/phpcs
+        run: ./vendor/bin/phpstan analyse app
 
   browser-tests:
     runs-on: ubuntu-latest

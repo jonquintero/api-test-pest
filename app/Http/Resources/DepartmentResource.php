@@ -4,12 +4,11 @@ namespace App\Http\Resources;
 
 
 use Illuminate\Http\Request;
-use JetBrains\PhpStorm\ArrayShape;
 use TiMacDonald\JsonApi\JsonApiResource;
 
 class DepartmentResource extends JsonApiResource
 {
-    #[ArrayShape(['name' => "mixed", 'description' => "mixed"])]
+
     public function toAttributes(Request $request): array
     {
         return [

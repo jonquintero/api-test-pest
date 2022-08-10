@@ -5,8 +5,10 @@ namespace App\DataTransferObjects;
 use App\Http\Requests\UpsertEmployeeRequest;
 use App\Models\Department;
 
+/** @phpstan-consistent-constructor */
 class EmployeeData
 {
+
     public function __construct(
         public readonly string $fullName,
         public readonly string $email,

@@ -2,6 +2,7 @@
 
 namespace App\ValueObjects;
 
+/** @phpstan-consistent-constructor */
 class Money
 {
     public function __construct(private readonly int $valueInCents)

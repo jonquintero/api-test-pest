@@ -1,16 +1,16 @@
 <?php
 
-namespace App\Models;
+// @formatter:off
+/**
+ * A helper file for your Eloquent Models
+ * Copy the phpDocs from this file to the correct Model,
+ * And remove them from this file, to prevent double declarations.
+ *
+ * @author Barry vd. Heuvel <barryvdh@gmail.com>
+ */
 
-use App\Enums\PaymentTypes;
-use App\Models\Concerns\HasUuid;
-use Illuminate\Database\Eloquent\Casts\Attribute;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
+namespace App\Models{
 /**
  * App\Models\Employee
  *
@@ -50,54 +50,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @method static \Illuminate\Database\Eloquent\Builder|Employee whereUuid($value)
  * @method static \Illuminate\Database\Query\Builder|Employee withTrashed()
  * @method static \Illuminate\Database\Query\Builder|Employee withoutTrashed()
- * @mixin \Eloquent
  */
-class Employee extends Model
-{
-    use HasFactory;
-    use HasUuid;
-    use SoftDeletes;
-
-    protected $fillable = [
-        'uuid',
-        'full_name',
-        'email',
-        'department_id',
-        'job_title',
-        'payment_type',
-        'salary',
-        'hourly_rate',
-    ];
-
-    protected $casts = [
-        'id' => 'integer',
-        'department_id' => 'integer',
-    ];
-
-    public function getRouteKeyName(): string
-    {
-        return 'uuid';
-    }
-
-    protected function paymentType(): Attribute
-    {
-        return new Attribute(
-            get: fn (string $value) => PaymentTypes::from($value)->makePaymentType($this),
-        );
-    }
-
-    public function paychecks(): HasMany
-    {
-        return $this->hasMany(Paycheck::class);
-    }
-
-    public function timelogs(): HasMany
-    {
-        return $this->hasMany(Timelog::class);
-    }
-
-    public function department(): BelongsTo
-    {
-        return $this->belongsTo(Department::class);
-    }
+	class Employee extends \Eloquent {}
 }
+

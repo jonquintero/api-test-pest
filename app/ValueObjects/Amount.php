@@ -2,6 +2,7 @@
 
 namespace App\ValueObjects;
 
+/** @phpstan-consistent-constructor */
 class Amount
 {
     public function __construct(private readonly Money $cents, private readonly Money $dollars)
