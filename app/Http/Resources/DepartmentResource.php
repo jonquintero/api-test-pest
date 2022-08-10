@@ -2,13 +2,11 @@
 
 namespace App\Http\Resources;
 
-
 use Illuminate\Http\Request;
 use TiMacDonald\JsonApi\JsonApiResource;
 
 class DepartmentResource extends JsonApiResource
 {
-
     public function toAttributes(Request $request): array
     {
         return [
@@ -27,7 +25,7 @@ class DepartmentResource extends JsonApiResource
     public function toLinks(Request $request): array
     {
         return [
-        'self' => route('departments.show', ['department' => $this->uuid]),
+            'self' => route('departments.show', ['department' => $this->uuid]),
         ];
     }
 }

@@ -2,11 +2,10 @@
 
 namespace Database\Factories;
 
-use Illuminate\Database\Eloquent\Factories\Factory;
-use Illuminate\Support\Str;
 use App\Models\Employee;
 use App\Models\Timelog;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Factories\Factory;
 
 class TimelogFactory extends Factory
 {

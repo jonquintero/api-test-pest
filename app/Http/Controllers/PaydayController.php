@@ -13,6 +13,7 @@ class PaydayController extends Controller
     public function store()
     {
         $this->payday->execute();
+
         return response()->noContent();
     }
 }

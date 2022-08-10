@@ -21,6 +21,7 @@ use Illuminate\Database\Eloquent\Relations\HasManyThrough;
  * @property-read int|null $employees_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Paycheck[] $paychecks
  * @property-read int|null $paychecks_count
+ *
  * @method static \Database\Factories\DepartmentFactory factory(...$parameters)
  * @method static \Illuminate\Database\Eloquent\Builder|Department newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Department newQuery()

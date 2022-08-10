@@ -17,9 +17,9 @@ class PaydayAction
                 }
 
                 $employee->paychecks()->create([
-                   'net_amount' => $amount,
-                   'payed_at' => now(),
-               ]);
+                    'net_amount' => $amount,
+                    'payed_at' => now(),
+                ]);
             }
         });
     }

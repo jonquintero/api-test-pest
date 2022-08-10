@@ -3,11 +3,9 @@
 namespace Database\Factories;
 
 use App\Enums\PaymentTypes;
-use Illuminate\Database\Eloquent\Factories\Factory;
 use App\Models\Department;
 use App\Models\Employee;
-use App\PaymentTypes\HourlyRate;
-use App\PaymentTypes\Salary;
+use Illuminate\Database\Eloquent\Factories\Factory;
 
 class EmployeeFactory extends Factory
 {
@@ -25,15 +23,15 @@ class EmployeeFactory extends Factory
      */
     public function definition()
     {
-        $isSalary = !!rand(0, 1);
+        $isSalary = (bool) rand(0, 1);
         $salary = $isSalary ? rand(48000, 120000) * 100 : null;
-        $hourlyRate = !$isSalary ? rand(15, 150) * 100 : null;
+        $hourlyRate = ! $isSalary ? rand(15, 150) * 100 : null;
 
         $jobTitles = collect([
-             'Full stack developer',
-             'Frontend developer',
-             'Backend developer',
-         ]);
+            'Full stack developer',
+            'Frontend developer',
+            'Backend developer',
+        ]);
 
         return [
             'uuid' => $this->faker->uuid,

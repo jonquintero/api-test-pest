@@ -11,6 +11,8 @@ abstract class PaymentType
     }
 
     abstract public function type(): string;
+
     abstract public function amount(): int;
+
     abstract public function monthlyAmount(): int;
 }

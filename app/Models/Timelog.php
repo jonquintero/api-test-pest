@@ -19,6 +19,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \App\Models\Employee $employee
+ *
  * @method static \Database\Factories\TimelogFactory factory(...$parameters)
  * @method static \Illuminate\Database\Eloquent\Builder|Timelog newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Timelog newQuery()
@@ -52,7 +53,6 @@ class Timelog extends Model
         'started_at' => 'datetime',
         'stopped_at' => 'datetime',
     ];
-
 
     /**
      * @return string

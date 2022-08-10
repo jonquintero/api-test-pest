@@ -1,13 +1,10 @@
 <?php
 
-use App\Models\Department;
 use App\Models\Employee;
 use App\Models\User;
-use Symfony\Component\HttpFoundation\Response;
-
 use function Pest\Laravel\deleteJson;
 use function Pest\Laravel\getJson;
-use function Pest\Laravel\postJson;
+use Symfony\Component\HttpFoundation\Response;
 
 beforeEach(function () {
     $user = User::factory()->create();

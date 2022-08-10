@@ -3,7 +3,6 @@
 use App\Models\Department;
 use App\Models\Employee;
 use App\Models\User;
-
 use function Pest\Laravel\getJson;
 
 beforeEach(function () {
@@ -35,24 +34,24 @@ it('should filter employees', function () {
     $marketing = Department::factory(['name' => 'Marketing'])->create();
 
     Employee::factory([
-          'department_id' => $development->id,
-      ])->count(4)->create();
+        'department_id' => $development->id,
+    ])->count(4)->create();
 
     $developer = Employee::factory([
-       'full_name' => 'Test John Doe',
-       'department_id' => $development->id,
-   ])->create();
+        'full_name' => 'Test John Doe',
+        'department_id' => $development->id,
+    ])->create();
 
     Employee::factory([
-          'department_id' => $marketing->id,
-      ])->count(2)->create();
+        'department_id' => $marketing->id,
+    ])->count(2)->create();
 
     $employees = getJson(
         route('department-employees.index', [
             'department' => $development,
             'filter' => [
                 'full_name' => 'Test',
-            ]
+            ],
         ]))
     ->json('data');
 

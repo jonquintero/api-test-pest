@@ -2,10 +2,8 @@
 
 use App\Models\Department;
 use App\Models\User;
-
-use Symfony\Component\HttpFoundation\Response;
-
 use function Pest\Laravel\postJson;
+use Symfony\Component\HttpFoundation\Response;
 
 beforeEach(function () {
     $user = User::factory()->create();
@@ -21,12 +19,12 @@ it('should return 422 if name is invalid', function (?string $name) {
         'name' => $name,
         'description' => 'description',
     ])/*->assertInvalid(['name'])*/->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
-    })
+})
     ->with([
-       '',
-       null,
-       'Development'
-   ]);
+        '',
+        null,
+        'Development',
+    ]);
 
 it('should create a department', function () {
     $department = postJson(route('departments.store'), [
@@ -38,5 +36,3 @@ it('should create a department', function () {
         ->attributes->name->toBe('Development')
         ->attributes->description->toBe('Awesome developers across the board!');
 });
-
-

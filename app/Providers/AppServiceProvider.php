@@ -7,7 +7,7 @@ use Illuminate\Support\ServiceProvider;
 use TiMacDonald\JsonApi\JsonApiResource;
 
 /**
- * @param Model $model
+ * @param  Model  $model
  * @return mixed
  */
 class AppServiceProvider extends ServiceProvider
@@ -31,6 +31,6 @@ class AppServiceProvider extends ServiceProvider
     {
         JsonApiResource::resolveIdUsing(
 
-        fn (Model $model) => $model->uuid);
+            fn (Model $model) => $model->uuid);
     }
 }

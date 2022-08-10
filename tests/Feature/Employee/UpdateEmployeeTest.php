@@ -3,10 +3,9 @@
 use App\Models\Department;
 use App\Models\Employee;
 use App\Models\User;
-use Symfony\Component\HttpFoundation\Response;
-
 use function Pest\Laravel\getJson;
 use function Pest\Laravel\putJson;
+use Symfony\Component\HttpFoundation\Response;
 
 beforeEach(function () {
     $user = User::factory()->create();
@@ -15,15 +14,15 @@ beforeEach(function () {
 
 it('should update an employee', function () {
     $development = Department::factory([
-           'name' => 'Development',
-       ])->create();
+        'name' => 'Development',
+    ])->create();
 
     $employee = Employee::factory([
-          'full_name' => 'Test Employee',
-          'email' => 'test@example.com',
-          'department_id' => $development,
-          'job_title' => 'BE Developer',
-      ])->create();
+        'full_name' => 'Test Employee',
+        'email' => 'test@example.com',
+        'department_id' => $development,
+        'job_title' => 'BE Developer',
+    ])->create();
 
     putJson(route('employees.update', ['employee' => $employee]), [
         'fullName' => 'John Doe',

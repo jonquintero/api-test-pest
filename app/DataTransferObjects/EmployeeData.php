@@ -8,7 +8,6 @@ use App\Models\Department;
 /** @phpstan-consistent-constructor */
 class EmployeeData
 {
-
     public function __construct(
         public readonly string $fullName,
         public readonly string $email,
@@ -17,7 +16,8 @@ class EmployeeData
         public readonly string $paymentType,
         public readonly ?int $salary,
         public readonly ?int $hourlyRate,
-    ) {}
+    ) {
+    }
 
     public static function fromRequest(UpsertEmployeeRequest $request): self
     {

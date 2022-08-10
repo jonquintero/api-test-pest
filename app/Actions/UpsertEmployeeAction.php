@@ -43,10 +43,10 @@ class UpsertEmployeeAction
         ];
 
         $validator = Validator::make([
-             'paymentType' => $employeeData->paymentType,
-             'salary' => $employeeData->salary,
-             'hourlyRate' => $employeeData->hourlyRate,
-         ], $rules);
+            'paymentType' => $employeeData->paymentType,
+            'salary' => $employeeData->salary,
+            'hourlyRate' => $employeeData->hourlyRate,
+        ], $rules);
 
         $validator->validate();
     }

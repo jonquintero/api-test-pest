@@ -2,7 +2,6 @@
 
 use App\Models\Employee;
 use App\Models\User;
-
 use function Pest\Laravel\getJson;
 
 beforeEach(function () {
@@ -23,14 +22,14 @@ it('should filter employees', function () {
     Employee::factory()->count(4)->create();
 
     $john = Employee::factory([
-          'full_name' => 'Test John Doe',
-      ])->create();
+        'full_name' => 'Test John Doe',
+    ])->create();
 
     $employees = getJson(
         route('employees.index', [
             'filter' => [
                 'full_name' => 'Test',
-            ]
+            ],
         ]))
     ->json('data');
 

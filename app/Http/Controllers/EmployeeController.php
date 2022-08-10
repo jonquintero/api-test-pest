@@ -44,18 +44,21 @@ class EmployeeController extends Controller
     public function update(UpsertEmployeeRequest $request, Employee $employee): HttpResponse
     {
         $employee = $this->upsert($request, $employee);
+
         return response()->noContent();
     }
 
     public function destroy(Employee $employee): HttpResponse
     {
         $employee->delete();
+
         return response()->noContent();
     }
 
     private function upsert(UpsertEmployeeRequest $request, Employee $employee): Employee
     {
         $employeeData = EmployeeData::fromRequest($request);
+
         return $this->upsertEmployee->execute($employee, $employeeData);
     }
 }

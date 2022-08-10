@@ -16,7 +16,7 @@ class Money
 
     public function toDollars(): string
     {
-        return '$' . number_format($this->valueInCents / 100, 2);
+        return '$'.number_format($this->valueInCents / 100, 2);
     }
 
     public function toCents(): int

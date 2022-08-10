@@ -37,7 +37,6 @@ class RouteServiceProvider extends ServiceProvider
                 ->middleware(['api', 'auth:sanctum'])
                 ->group(base_path('routes/api/v2.php'));
 
-
             Route::middleware('web')
                 ->group(base_path('routes/web.php'));
         });

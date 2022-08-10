@@ -1,13 +1,10 @@
 <?php
 
-
 use App\Models\Department;
 use App\Models\Employee;
 use App\Models\User;
-
-use Symfony\Component\HttpFoundation\Response;
-
 use function Pest\Laravel\postJson;
+use Symfony\Component\HttpFoundation\Response;
 
 beforeEach(function () {
     $user = User::factory()->create();
@@ -28,11 +25,11 @@ it('should return 422 if email is invalid', function (?string $email) {
         'salary' => 75000 * 100,
     ])/*->assertInvalid(['email'])*/->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
 })->with([
-     'taken@example.com',
-     'invalid',
-     null,
-     '',
- ]);
+    'taken@example.com',
+    'invalid',
+    null,
+    '',
+]);
 
 it('should return 422 if payment type is invalid', function () {
     postJson(route('employees.store'), [
@@ -56,11 +53,11 @@ it('should return 422 if salary or hourly rate missing', function (string $payme
         'hourlyRate' => $hourlyRate,
     ])/*->assertInvalid([$paymentType])*/->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
 })->with([
-     ['paymentType' => 'salary', 'salary' => null, 'hourlyRate' => 30 * 100],
-     ['paymentType' => 'salary', 'salary' => 0, 'hourlyRate' => null],
-     ['paymentType' => 'hourlyRate', 'salary' => 75000 * 100, 'hourlyRate' => null],
-     ['paymentType' => 'hourlyRate', 'salary' => null, 'hourlyRate' => 0],
- ]);
+    ['paymentType' => 'salary', 'salary' => null, 'hourlyRate' => 30 * 100],
+    ['paymentType' => 'salary', 'salary' => 0, 'hourlyRate' => null],
+    ['paymentType' => 'hourlyRate', 'salary' => 75000 * 100, 'hourlyRate' => null],
+    ['paymentType' => 'hourlyRate', 'salary' => null, 'hourlyRate' => 0],
+]);
 
 it('should store an employee with payment type salary', function () {
     $employee = postJson(route('employees.store'), [
@@ -99,4 +96,3 @@ it('should store an employee with payment type hourly rate', function () {
         ->attributes->payment->amount->cents->toBe(30 * 100)
         ->attributes->payment->amount->dollars->toBe('$30.00');
 });
-

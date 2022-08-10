@@ -2,9 +2,8 @@
 
 use App\Models\Department;
 use App\Models\User;
-use Symfony\Component\HttpFoundation\Response;
-
 use function Pest\Laravel\getJson;
+use Symfony\Component\HttpFoundation\Response;
 
 beforeEach(function () {
     $user = User::factory()->create();
@@ -18,9 +17,9 @@ it('should return 404 if a department not found', function () {
 
 it('should return a department', function () {
     $department = Department::factory([
-          'name' => 'Development',
-          'description' => 'Best developers',
-      ])->create();
+        'name' => 'Development',
+        'description' => 'Best developers',
+    ])->create();
 
     $departmentResponse = getJson(route('departments.show', compact('department')))
         ->json('data');

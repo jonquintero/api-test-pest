@@ -3,7 +3,6 @@
 use App\Models\Employee;
 use App\Models\Paycheck;
 use App\Models\User;
-
 use function Pest\Laravel\getJson;
 
 beforeEach(function () {

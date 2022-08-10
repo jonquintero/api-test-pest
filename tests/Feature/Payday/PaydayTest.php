@@ -5,7 +5,6 @@ use App\Models\Employee;
 use App\Models\Timelog;
 use App\Models\User;
 use Carbon\Carbon;
-
 use function Pest\Laravel\postJson;
 
 beforeEach(function () {
@@ -38,9 +37,9 @@ it('should create paychecks for salary employees', function () {
 it('should create paychecks for hourly rate employees', function () {
     $this->travelTo(Carbon::parse('2022-02-10'), function () {
         $employee = Employee::factory([
-              'hourly_rate' => 10 * 100,
-              'payment_type' => PaymentTypes::HOURLY_RATE->value,
-          ])->create();
+            'hourly_rate' => 10 * 100,
+            'payment_type' => PaymentTypes::HOURLY_RATE->value,
+        ])->create();
 
         $dayBeforeYesterday = now()->subDays(2);
         $yesterday = now()->subDay();
@@ -68,9 +67,9 @@ it('should create paychecks for hourly rate employees', function () {
 it('should create paychecks for hourly rate employees only for current month', function () {
     $this->travelTo(Carbon::parse('2022-02-10'), function () {
         $employee = Employee::factory([
-              'hourly_rate' => 10 * 100,
-              'payment_type' => PaymentTypes::HOURLY_RATE->value,
-          ])->create();
+            'hourly_rate' => 10 * 100,
+            'payment_type' => PaymentTypes::HOURLY_RATE->value,
+        ])->create();
 
         Timelog::factory()
             ->count(2)
@@ -93,9 +92,9 @@ it('should create paychecks for hourly rate employees only for current month', f
 it('should not create paychecks for hourly rate employees without time logs', function () {
     $this->travelTo(Carbon::parse('2022-02-10'), function () {
         Employee::factory([
-              'hourly_rate' => 10 * 100,
-              'payment_type' => PaymentTypes::HOURLY_RATE->value,
-          ])->create();
+            'hourly_rate' => 10 * 100,
+            'payment_type' => PaymentTypes::HOURLY_RATE->value,
+        ])->create();
 
         postJson(route('payday.store'))
             ->assertNoContent();

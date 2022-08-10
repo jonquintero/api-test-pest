@@ -73,30 +73,32 @@ class Handler extends ExceptionHandler
             if ($this->isFrontend($request)) {
                 return redirect()->guest('login');
             }
+
             return $this->errorResponse(false, 'No se encuentra autenticado', 401);
         }
 
-        if($e instanceof AuthorizationException) {
-            return $this->errorResponse(false,'No posee permisos para ejecutar esta acción', 403);
+        if ($e instanceof AuthorizationException) {
+            return $this->errorResponse(false, 'No posee permisos para ejecutar esta acción', 403);
         }
 
-        if ($e instanceof ModelNotFoundException){
+        if ($e instanceof ModelNotFoundException) {
             $modelName = strtolower(class_basename($e->getModel()));
-            return $this->errorResponse(false,"No existe ningun {$modelName} con ese identificador", 404);
+
+            return $this->errorResponse(false, "No existe ningun {$modelName} con ese identificador", 404);
         }
 
         if ($e instanceof ValidationException) {
             return $this->convertValidationExceptionToResponse($e, $request);
         }
 
-        if($e instanceof NotFoundHttpException) {
-            return $this->errorResponse(false,'No se encontró la URL especificada', 404);
+        if ($e instanceof NotFoundHttpException) {
+            return $this->errorResponse(false, 'No se encontró la URL especificada', 404);
         }
-        if($e instanceof MethodNotAllowedHttpException) {
-            return $this->errorResponse(false,'El método especificado en la petición no es válido', 405);
+        if ($e instanceof MethodNotAllowedHttpException) {
+            return $this->errorResponse(false, 'El método especificado en la petición no es válido', 405);
         }
 
-        if ($e instanceof HttpException){
+        if ($e instanceof HttpException) {
             return $this->errorResponse(false, $e->getMessage(), $e->getStatusCode());
         }
 
@@ -105,19 +107,18 @@ class Handler extends ExceptionHandler
               return $this->errorResponse(false, 'Error interno del servidor', 500);
           }*/
 
-        if ($e instanceof QueryException){
+        if ($e instanceof QueryException) {
             $errorCode = $e->errorInfo[1];
             if ($errorCode == 1451) {
-                return $this->errorResponse(false,'No puede eliminar este registro. Tiene relacion con otro registro', 409);
+                return $this->errorResponse(false, 'No puede eliminar este registro. Tiene relacion con otro registro', 409);
             }
-
         }
+
         return parent::render($request, $e);
     }
 
-
     /**
-     * @param ValidationException $e
+     * @param  ValidationException  $e
      * @param $request
      * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\RedirectResponse|\Illuminate\Http\Response|\Symfony\Component\HttpFoundation\Response
      */
@@ -126,12 +127,12 @@ class Handler extends ExceptionHandler
         $errors = $e->validator->errors()->getMessages();
 
         if ($this->isFrontend($request)) {
-
-            return $request->ajax()? response()->json($errors, 422):redirect()
+            return $request->ajax() ? response()->json($errors, 422) : redirect()
                 ->back()
                 ->withInput($request->input())
                 ->withErrors($errors);
         }
+
         return $this->errorResponse(false, $errors, 422);
     }
 
@@ -149,7 +150,4 @@ class Handler extends ExceptionHandler
     {
         return response()->json($data, $code);
     }
-
-
 }
-

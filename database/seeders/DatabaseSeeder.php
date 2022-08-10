@@ -18,10 +18,10 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         User::factory([
-                  'name' => 'Admin',
-                  'email' => 'admin@payday.dev',
-                  'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
-              ])->create();
+            'name' => 'Admin',
+            'email' => 'admin@payday.dev',
+            'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
+        ])->create();
 
         Department::factory(5)
             ->sequence(

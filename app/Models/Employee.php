@@ -31,6 +31,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property-read int|null $paychecks_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Timelog[] $timelogs
  * @property-read int|null $timelogs_count
+ *
  * @method static \Database\Factories\EmployeeFactory factory(...$parameters)
  * @method static \Illuminate\Database\Eloquent\Builder|Employee newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Employee newQuery()
