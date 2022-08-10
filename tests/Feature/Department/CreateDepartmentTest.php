@@ -3,6 +3,8 @@
 use App\Models\Department;
 use App\Models\User;
 
+use Symfony\Component\HttpFoundation\Response;
+
 use function Pest\Laravel\postJson;
 
 beforeEach(function () {
@@ -18,7 +20,7 @@ it('should return 422 if name is invalid', function (?string $name) {
     postJson(route('departments.store'), [
         'name' => $name,
         'description' => 'description',
-    ])->assertInvalid(['name']);
+    ])/*->assertInvalid(['name'])*/->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
     })
     ->with([
        '',

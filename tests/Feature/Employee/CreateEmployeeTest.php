@@ -5,6 +5,8 @@ use App\Models\Department;
 use App\Models\Employee;
 use App\Models\User;
 
+use Symfony\Component\HttpFoundation\Response;
+
 use function Pest\Laravel\postJson;
 
 beforeEach(function () {
@@ -24,7 +26,7 @@ it('should return 422 if email is invalid', function (?string $email) {
         'jobTitle' => 'BE Developer',
         'paymentType' => 'salary',
         'salary' => 75000 * 100,
-    ])->assertInvalid(['email']);
+    ])/*->assertInvalid(['email'])*/->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
 })->with([
      'taken@example.com',
      'invalid',
@@ -40,7 +42,7 @@ it('should return 422 if payment type is invalid', function () {
         'jobTitle' => 'BE Developer',
         'paymentType' => 'invalid',
         'salary' => 75000 * 100,
-    ])->assertInvalid(['paymentType']);
+    ])->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY)/*->assertInvalid(['paymentType'])*/;
 });
 
 it('should return 422 if salary or hourly rate missing', function (string $paymentType, ?int $salary, ?int $hourlyRate) {
@@ -52,7 +54,7 @@ it('should return 422 if salary or hourly rate missing', function (string $payme
         'paymentType' => $paymentType,
         'salary' => $salary,
         'hourlyRate' => $hourlyRate,
-    ])->assertInvalid([$paymentType]);
+    ])/*->assertInvalid([$paymentType])*/->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
 })->with([
      ['paymentType' => 'salary', 'salary' => null, 'hourlyRate' => 30 * 100],
      ['paymentType' => 'salary', 'salary' => 0, 'hourlyRate' => null],
